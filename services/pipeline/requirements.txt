@@ -1,0 +1,15 @@
+fastapi[standard]
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+geoalchemy2
+pgvector
+alembic
+apscheduler
+httpx
+feedparser
+trafilatura
+openai
+pydantic
+python-dotenv
+redis
