@@ -5,6 +5,9 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from db.database import init_db
 from scrapers.news import run_news_pipeline
+from scrapers.reddit import run_reddit_pipeline
+from scrapers.google_reviews import run_google_reviews_pipeline
+from scrapers.twitter import run_twitter_pipeline
 from ai.scorer import recompute_all_scores
 
 scheduler = AsyncIOScheduler()
@@ -13,8 +16,22 @@ scheduler = AsyncIOScheduler()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+
+    # News RSS feeds — every 6 hours
     scheduler.add_job(run_news_pipeline, "interval", hours=6, id="news_pipeline")
+
+    # Reddit posts — every 8 hours
+    scheduler.add_job(run_reddit_pipeline, "interval", hours=8, id="reddit_pipeline")
+
+    # Google Reviews — once daily (limited free API calls)
+    scheduler.add_job(run_google_reviews_pipeline, "interval", hours=24, id="google_reviews_pipeline")
+
+    # Twitter/X — every 6 hours
+    scheduler.add_job(run_twitter_pipeline, "interval", hours=6, id="twitter_pipeline")
+
+    # Recompute scores — every 12 hours
     scheduler.add_job(recompute_all_scores, "interval", hours=12, id="score_recompute")
+
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -34,6 +51,25 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.post("/api/pipelines/run")
+async def trigger_pipelines():
+    """Manually trigger all pipelines (for dev/testing)."""
+    import asyncio
+    results = {}
+    for name, fn in [
+        ("news", run_news_pipeline),
+        ("reddit", run_reddit_pipeline),
+        ("twitter", run_twitter_pipeline),
+        ("google_reviews", run_google_reviews_pipeline),
+    ]:
+        try:
+            await fn()
+            results[name] = "ok"
+        except Exception as e:
+            results[name] = f"error: {e}"
+    return results
 
 
 @app.get("/api/localities")

@@ -18,30 +18,20 @@ html, body, #__next {
   width: 100%;
 }
 
-/* Mapbox popup overrides */
-.mapboxgl-popup-content {
-  background: #1f2937 !important;
+/* MapLibre popup overrides */
+.maplibregl-popup-content {
+  background: #ffffff !important;
   border-radius: 8px !important;
   padding: 0 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
-.mapboxgl-popup-close-button {
-  color: #9ca3af !important;
-  font-size: 16px !important;
+.maplibregl-popup-close-button {
+  color: #666 !important;
+  font-size: 18px !important;
   padding: 4px 8px !important;
 }
 
-.mapboxgl-popup-tip {
-  border-top-color: #1f2937 !important;
-}
-
-/* Geolocate control styling */
-.mapboxgl-ctrl-geolocate {
-  background-color: #1f2937 !important;
-  border: 1px solid #374151 !important;
-}
-
-.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
-  filter: invert(1);
+.maplibregl-popup-tip {
+  border-top-color: #ffffff !important;
 }
