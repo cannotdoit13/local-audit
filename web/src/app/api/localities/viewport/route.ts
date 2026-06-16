@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
           label: zone.label,
           ...aggregateLocalities(zoneLocs),
         };
-      }).filter((z) => z.locality_count > 0),
+      }).filter((z) => (z.locality_count ?? 0) > 0),
     });
   }
 
@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
         );
         return { slug, label: zone.label, ...aggregateLocalities(zoneLocs) };
       })
-      .filter((z) => z.locality_count > 0);
+      .filter((z) => (z.locality_count ?? 0) > 0);
 
     return NextResponse.json({
       level: "zone",
