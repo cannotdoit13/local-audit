@@ -40,7 +40,7 @@ function getScoreColor(score: number): string {
 
 export default function ViewportStatsBar({ bounds, zoom, dark = true }: Props) {
   const [stats, setStats] = useState<ViewportStats | null>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     if (!bounds) return;

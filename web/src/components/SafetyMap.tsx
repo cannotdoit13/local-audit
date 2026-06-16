@@ -160,9 +160,8 @@ export default function SafetyMap({
     const geolocate = new maplibregl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true },
       trackUserLocation: true,
-      showUserHeading: true,
       showUserLocation: false,
-    });
+    } as maplibregl.GeolocateControlOptions);
     map.addControl(geolocate, "top-right");
 
     geolocate.on("geolocate", handleGeolocate as unknown as (e: unknown) => void);
@@ -208,7 +207,7 @@ export default function SafetyMap({
 
     fetch("/api/localities")
       .then((r) => r.json())
-      .then((data: { features: Array<{ properties: LocalityProperties; geometry: { type: string; coordinates: number[][][] } }> }) => {
+      .then((data: { type: "FeatureCollection"; features: Array<{ type: "Feature"; properties: LocalityProperties; geometry: { type: "Polygon"; coordinates: number[][][] } }> }) => {
         const map = mapRef.current!;
 
         markersRef.current.forEach((m) => m.remove());
