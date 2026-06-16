@@ -194,7 +194,7 @@ function generateMockNews(localityName: string) {
       { name: "Pune Mirror", url: `https://punemirror.com/pune/pune-news/${slug}-${articleId}.html` },
       { name: "Hindustan Times", url: `https://www.hindustantimes.com/cities/pune-news/${slug}-${articleId}.html` },
       { name: "r/pune", url: `https://reddit.com/r/pune/comments/${Math.random().toString(36).slice(2, 8)}/${slug}/` },
-      { name: "Twitter/X", url: `https://twitter.com/PuneCityPolice/status/${1800000000000000000n + BigInt(Math.floor(Math.random() * 99999999999999))}` },
+      { name: "Twitter/X", url: `https://twitter.com/PuneCityPolice/status/18${String(Math.floor(Math.random() * 1e16)).padStart(17, "0")}` },
     ];
     const source = sources[Math.floor(Math.random() * sources.length)];
 
